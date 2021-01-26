@@ -9,11 +9,11 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 preload">
-
 <div id="form" class="flex justify-center mt-40">
-    <div class="flex bg-gray-200 rounded-md border-1 border-gray-500 shadow-xl p-10">
+    <div :class="isEnded ? 'buildUp' : '' "
+         class="flex justify-center bg-gray-200 rounded-md border-1 border-gray-500 shadow-xl p-10">
         <!-- CARDS -->
-        <div class="static -mr-10 pr-20 self-center">
+        <div :class="cardSaved ? 'saveCard' : ''" class="static -mr-10 pr-20 self-center">
             <!-- CARD RECTO -->
             <div :class="sideShowing ? 'transitionOut z-10' : 'transitionIn'"
                  class="absolute bg-gradient-to-r from-indigo-500 to-indigo-600 w-96 h-52 rounded-md shadow-2xl text-white text-2xl z-10"
@@ -21,12 +21,12 @@
                 <div class="flex flex-col justify-evenly">
                     <div class="flex flex-row">
                         <div class="bg-yellow-400 w-16 h-10 rounded-lg shadow-inner ml-8 mt-14"></div>
-                        <div class="ml-16 mt-16 max-w-4xl text-orbitron select-none">{{ name }}</div>
+                        <div class="ml-16 mt-16 max-w-4xl select-none">{{ name }}</div>
                     </div>
                     <div>
-                        <div class="pt-5 pl-5 text-orbitron select-none">{{ card }}</div>
+                        <div class="pt-5 pl-5 select-none">{{ card }}</div>
                     </div>
-                    <div class="flex self-center text-orbitron">
+                    <div class="flex self-center">
                         <div class="select-none">{{ date }}</div>
                     </div>
                 </div>
@@ -73,10 +73,18 @@
                    class="cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
                    type="button" value="Valider" v-on:click="isEnded = true">
         </div>
-        <p :class="isEnded ? 'endedAfter' : ''" class="self-end opacity-0 absolute text-center z-20">
-            Voulez-vous enregistrer la carte pour
-            des achats futurs ?
-        </p>
+
+
+        <div :class="isEnded ? 'endedAfter' : ''" class="flex flex-col self-end absolute opacity-0 -mb-24">
+            <p class="text-center z-20 text-gray-800">
+                Voulez-vous enregistrer la carte pour
+                des futurs achats ?
+            </p>
+            <input class="self-center cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
+                   type="button" value="Oui" v-on:click="cardSaved = true">
+            <input class="self-center cursor-poiter rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
+                   type="button" value="Non" v-on:click="cardSaved = true">
+        </div>
     </div>
 </div>
 </body>
@@ -90,7 +98,8 @@
             'sideShowing': true,
             'card': null,
             'isEnded': false,
-            'isSaved': false
+            'isSaved': false,
+            'cardSaved': false
         }
     })
 
@@ -113,10 +122,6 @@
 
 </script>
 <style>
-    .text-orbitron {
-        font-family: 'Orbitron';
-    }
-
     .transitionBase {
         transform: rotateY(0deg);
     }
@@ -165,10 +170,6 @@
         animation: endedKF 1s forwards;
     }
 
-    .endedAfter {
-        animation: endedAfterKF 1s forwards;
-    }
-
     @keyframes endedKF {
         0% {
 
@@ -184,6 +185,10 @@
             opacity: 0;
         }
 
+    }
+
+    .endedAfter {
+        animation: endedAfterKF 1s forwards;
     }
 
     @keyframes endedAfterKF {
@@ -202,6 +207,34 @@
 
     }
 
+    .buildUp {
+        animation: buldingUpBaseSquareKF 1s forwards;
+    }
+
+    @keyframes buildingUpBaseSquareKF {
+        0% {
+
+        }
+        100% {
+            padding-bottom: 7rem;
+        }
+    }
+
+    .saveCard {
+        animation: saveCardKF 1s forwards;
+    }
+
+    @keyframes saveCardKF {
+        0% {
+
+        }
+        50% {
+            margin-top: -10rem;
+        }
+        100% {
+            margin-top: -80rem;
+        }
+    }
 
     body.preload * {
         animation-duration: 0s !important;
