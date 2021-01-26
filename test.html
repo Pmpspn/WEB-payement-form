@@ -20,8 +20,9 @@
         <!-- CARDS -->
         <div class="static -mr-10 pr-20">
             <!-- CARD RECTO -->
-            <div class="absolute -m-10 bg-indigo-800 w-96 h-52 rounded-md shadow-lg text-white text-2xl z-10"
-                 v-on:click="sideShowing = true">
+            <div :class="sideShowing ? 'transitionOut' : 'transitionIn'"
+                 class="absolute bg-indigo-800 w-96 h-52 rounded-md shadow-lg text-white text-2xl z-10"
+                 v-on:click="sideShowing = !sideShowing">
                 <div class="flex flex-col justify-evenly">
                     <div class="flex flex-row">
                         <div class="bg-yellow-400 w-16 h-10 rounded-lg shadow-inner ml-8 mt-14"></div>
@@ -36,9 +37,9 @@
                 </div>
             </div>
             <!-- CARD VERSO -->
-            <div :class="sideShowing ? 'z-0' : 'z-20'"
-                 class="relative bg-indigo-900 w-96 h-52 rounded-md shadow-lg text-white text-2xl"
-                 v-on:click="sideShowing = false">
+            <div :class="sideShowing ? 'transitionIn' : 'transitionOut'"
+                 class=" relative bg-indigo-900 w-96 h-52 rounded-md shadow-lg text-white text-2xl"
+                 v-on:click="sideShowing = !sideShowing">
                 <div class="flex justify-center">
                     <div class="text-gray-700 mt-10 flex justify-center bg-white bg-opacity-75 rounded-lg h-8 w-80 text-orbitron">
                         {{ cryptogramme }}
@@ -108,14 +109,47 @@
         font-family: 'Orbitron';
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
+    .transitionIn {
+        animation: animationIn .6s;
+        transform: rotateY(90deg);
     }
 
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-    {
-        opacity: 0;
+    @keyframes animationIn {
+        0% {
+            transform: rotateY(0deg);
+        }
+        25% {
+            transform: rotateY(90deg);
+        }
+        50% {
+            transform: rotateY(90deg);
+        }
+        100% {
+            transform: rotateY(90deg);
+        }
     }
+
+    .transitionOut {
+        animation: animationOut .6s;
+        transform: rotateY(0deg);
+    }
+
+    @keyframes animationOut {
+        0% {
+            transform: rotateY(90deg);
+        }
+        25% {
+            transform: rotateY(90deg);
+        }
+        50% {
+            transform: rotateY(0deg);
+
+        }
+        100% {
+            transform: rotateY(0deg);
+        }
+    }
+
 </style>
 </html>
 

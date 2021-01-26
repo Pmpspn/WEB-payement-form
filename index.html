@@ -36,15 +36,17 @@
                 </div>
             </div>
             <!-- CARD VERSO -->
-            <div :class="sideShowing ? 'z-0' : 'z-20'"
-                 class="relative bg-indigo-900 w-96 h-52 rounded-md shadow-lg text-white text-2xl"
-                 v-on:click="sideShowing = false">
-                <div class="flex justify-center">
-                    <div class="text-gray-700 mt-10 flex justify-center bg-white bg-opacity-75 rounded-lg h-8 w-80 text-orbitron">
-                        {{ cryptogramme }}
+            <transition name="fade">
+                <div :class="sideShowing ? 'z-0' : 'z-20 transition'"
+                     class="relative bg-indigo-900 w-96 h-52 rounded-md shadow-lg text-white text-2xl"
+                     v-on:click="sideShowing = false">
+                    <div class="flex justify-center">
+                        <div class="text-gray-700 mt-10 flex justify-center bg-white bg-opacity-75 rounded-lg h-8 w-80 text-orbitron">
+                            {{ cryptogramme }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition>
         </div>
 
 
@@ -108,19 +110,28 @@
         font-family: 'Orbitron';
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
+    .transition {
+        rotatex(3rad)
     }
 
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-    {
-        opacity: 0;
+    @keyframes swipe {
+        0% {
+
+        }
+        50% {
+
+        }
+        100% {
+
+        }
+
     }
+
+
 </style>
 </html>
 
 <!--
-Setup masks for credit card number and date
 Animate
 Responsive
 -->
