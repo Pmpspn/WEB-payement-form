@@ -10,80 +10,82 @@
 </head>
 <body class="bg-gray-100 preload">
 <div id="form" class="flex justify-center mt-40">
-    <div :class="isEnded ? 'buildUp' : '' "
-         class="flex justify-center bg-gray-200 rounded-md border-1 border-gray-500 shadow-xl p-10">
-        <!-- CARDS -->
-        <div :class="cardSaved ? 'saveCard' : ''" class="static -mr-10 pr-20 self-center">
-            <!-- CARD RECTO -->
-            <div :class="sideShowing ? 'transitionOut z-10' : 'transitionIn'"
-                 class="absolute bg-gradient-to-r from-indigo-500 to-indigo-600 w-96 h-52 rounded-md shadow-2xl text-white text-2xl z-10"
-                 v-on:click="sideShowing = !sideShowing">
-                <div class="flex flex-col justify-evenly">
-                    <div class="flex flex-row">
-                        <div class="bg-yellow-400 w-16 h-10 rounded-lg shadow-inner ml-8 mt-14"></div>
-                        <div class="ml-16 mt-16 max-w-4xl select-none">{{ name }}</div>
+    <div :class="cardSaved ? 'cleanScreenCtn' : ''">
+        <div :class="isEnded ? 'buildUp' : ''"
+             class="flex justify-center bg-gray-200 rounded-md border-1 border-gray-500 shadow-xl p-10">
+            <!-- CARDS -->
+            <div :class="cardSaved ? 'saveCard' : ''" class="static -mr-10 pr-20 self-center">
+                <!-- CARD RECTO -->
+                <div :class="sideShowing ? 'transitionOut z-10' : 'transitionIn'"
+                     class="absolute bg-gradient-to-r from-indigo-500 to-indigo-600 w-96 h-52 rounded-md shadow-2xl text-white text-2xl z-10"
+                     v-on:click="sideShowing = !sideShowing">
+                    <div class="flex flex-col justify-evenly">
+                        <div class="flex flex-row">
+                            <div class="bg-yellow-400 w-16 h-10 rounded-lg shadow-inner ml-8 mt-14"></div>
+                            <div class="ml-16 mt-16 max-w-4xl select-none">{{ name }}</div>
+                        </div>
+                        <div>
+                            <div class="pt-5 pl-5 select-none">{{ card }}</div>
+                        </div>
+                        <div class="flex self-center">
+                            <div class="select-none">{{ date }}</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="pt-5 pl-5 select-none">{{ card }}</div>
-                    </div>
-                    <div class="flex self-center">
-                        <div class="select-none">{{ date }}</div>
+                </div>
+                <!-- CARD VERSO -->
+                <div :class="sideShowing ? 'transitionIn z-0' : 'transitionOut'"
+                     class=" relative bg-gradient-to-r from-indigo-800 to-indigo-900 w-96 h-52 rounded-md shadow-2xl text-white text-2xl"
+                     v-on:click="sideShowing = !sideShowing">
+                    <div class="flex justify-center">
+                        <div class="text-gray-700 mt-10 flex justify-center bg-white bg-opacity-75 rounded-lg h-8 w-80 text-orbitron select-none">
+                            {{ cryptogramme }}
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- CARD VERSO -->
-            <div :class="sideShowing ? 'transitionIn z-0' : 'transitionOut'"
-                 class=" relative bg-gradient-to-r from-indigo-800 to-indigo-900 w-96 h-52 rounded-md shadow-2xl text-white text-2xl"
-                 v-on:click="sideShowing = !sideShowing">
-                <div class="flex justify-center">
-                    <div class="text-gray-700 mt-10 flex justify-center bg-white bg-opacity-75 rounded-lg h-8 w-80 text-orbitron select-none">
-                        {{ cryptogramme }}
-                    </div>
+
+            <!-- INPUTS -->
+            <div :class="isEnded ? 'ended' : '' " class="flex flex-col items-center -mt-6">
+                <p class="text-2xl font-semi-bold text-gray-800">Ajouter une carte</p>
+                <label class="flex flex-col text-gray-700">Nom
+                    <input v-model="name" :disabled="isEnded === true"
+                           class="rounded shadow-inner focus:outline-none focus:ring-1 focus:ring-gray-300"
+                           placeholder="DUPONT"
+                           v-on:click="sideShowing = true"></label>
+                <label class="flex flex-col text-gray-700">Numéro de carte
+                    <input v-model="card"
+                           :disabled="isEnded === true"
+                           class="rounded shadow-inner input-card focus:outline-none focus:ring-1 focus:ring-gray-300"
+                           maxlength="19"
+                           placeholder="XXXX-XXXX-XXXX-XXXX" type="text" v-on:click="sideShowing = true"></label>
+                <label class="flex flex-col text-gray-700">Date
+                    <input v-model="date"
+                           :disabled="isEnded === true"
+                           class="rounded shadow-inner input-date focus:outline-none focus:ring-1 focus:ring-gray-300"
+                           maxlength="5"
+                           placeholder="MM/AA" type="text" v-on:click="sideShowing = true"></label>
+                <label class="flex flex-col text-gray-700">Cryptogramme
+                    <input v-model="cryptogramme"
+                           :disabled="isEnded === true"
+                           class="rounded shadow-inner focus:outline-none focus:ring-1 focus:ring-gray-300"
+                           maxlength="3"
+                           placeholder="XXX" type="text" v-on:click="sideShowing = false"></label>
+                <input :disabled="isEnded === true"
+                       class="cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
+                       type="button" value="Valider" v-on:click="isEnded = true">
+            </div>
+            <div :class="cardSaved ? 'cleanScreenQst' : ''" class="self-end absolute -mb-24">
+                <div :class="isEnded ? 'endedAfter' : ''" class="flex flex-col opacity-0">
+                    <p class="text-center z-20 text-gray-800">
+                        Voulez-vous enregistrer la carte pour
+                        des futurs achats ?
+                    </p>
+                    <input class="self-center cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
+                           type="button" value="Oui" v-on:click="cardSaved = true">
+                    <input class="self-center cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
+                           type="button" value="Non" v-on:click="cardSaved = true">
                 </div>
             </div>
-        </div>
-
-        <!-- INPUTS -->
-        <div :class="isEnded ? 'ended' : '' " class="flex flex-col items-center -mt-6">
-            <p class="text-2xl font-semi-bold text-gray-800">Ajouter une carte</p>
-            <label class="flex flex-col text-gray-700">Nom
-                <input v-model="name" :disabled="isEnded === true"
-                       class="rounded shadow-inner focus:outline-none focus:ring-1 focus:ring-gray-300"
-                       placeholder="DUPONT"
-                       v-on:click="sideShowing = true"></label>
-            <label class="flex flex-col text-gray-700">Numéro de carte
-                <input v-model="card"
-                       :disabled="isEnded === true"
-                       class="rounded shadow-inner input-card focus:outline-none focus:ring-1 focus:ring-gray-300"
-                       maxlength="19"
-                       placeholder="XXXX-XXXX-XXXX-XXXX" type="text" v-on:click="sideShowing = true"></label>
-            <label class="flex flex-col text-gray-700">Date
-                <input v-model="date"
-                       :disabled="isEnded === true"
-                       class="rounded shadow-inner input-date focus:outline-none focus:ring-1 focus:ring-gray-300"
-                       maxlength="5"
-                       placeholder="MM/AA" type="text" v-on:click="sideShowing = true"></label>
-            <label class="flex flex-col text-gray-700">Cryptogramme
-                <input v-model="cryptogramme"
-                       :disabled="isEnded === true"
-                       class="rounded shadow-inner focus:outline-none focus:ring-1 focus:ring-gray-300"
-                       maxlength="3"
-                       placeholder="XXX" type="text" v-on:click="sideShowing = false"></label>
-            <input :disabled="isEnded === true"
-                   class="cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
-                   type="button" value="Valider" v-on:click="isEnded = true">
-        </div>
-
-
-        <div :class="isEnded ? 'endedAfter' : ''" class="flex flex-col self-end absolute opacity-0 -mb-24">
-            <p class="text-center z-20 text-gray-800">
-                Voulez-vous enregistrer la carte pour
-                des futurs achats ?
-            </p>
-            <input class="self-center cursor-pointer rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
-                   type="button" value="Oui" v-on:click="cardSaved = true">
-            <input class="self-center cursor-poiter rounded shadow-lg hover:bg-gray-200 mt-2 w-32 focus:outline-none focus:ring-1 focus:ring-gray-300 text-gray-800"
-                   type="button" value="Non" v-on:click="cardSaved = true">
         </div>
     </div>
 </div>
@@ -204,14 +206,13 @@
         100% {
             opacity: 1
         }
-
     }
 
     .buildUp {
         animation: buldingUpBaseSquareKF 1s forwards;
     }
 
-    @keyframes buildingUpBaseSquareKF {
+    @keyframes buldingUpBaseSquareKF {
         0% {
 
         }
@@ -233,6 +234,33 @@
         }
         100% {
             margin-top: -80rem;
+        }
+    }
+
+    .cleanScreenQst {
+        animation: cleanQuestionKF 1s forwards;
+    }
+
+    .cleanScreenCtn {
+        animation: cleanContainerKF 1s forwards;
+    }
+
+    @keyframes cleanQuestionKF {
+        0% {
+        }
+        100% {
+            opacity: 0
+        }
+    }
+
+    @keyframes cleanContainerKF {
+        0% {
+        }
+        50% {
+
+        }
+        100% {
+            opacity: 0
         }
     }
 
